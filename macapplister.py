@@ -106,15 +106,6 @@ def create_csv(appinfo):
     print(csv_fname, "created.")
     print("")
 
-#for key in appinfo.keys():
-#    if not "Version" in appinfo[key]: appinfo[key]["Version"] = "Unknown"
-#    if not "Vendor"  in appinfo[key]: appinfo[key]["Vendor"]  = "Unknown"
-#    if appinfo[key]["Vendor"] != "Apple Inc." and \
-#       appinfo[key]["Version"] != "Windows 10 Pro" and \
-#       appinfo[key]["Location"].find("(Parallels)") != 0:
-#        print(key, ", ", appinfo[key]["Version"], ", ", appinfo[key]["Vendor"],
-#    sep='') 
-
 proc = run_systemprofiler()
 appinfo = parse_results(proc)
 create_csv(appinfo)
