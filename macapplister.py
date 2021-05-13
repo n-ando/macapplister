@@ -48,63 +48,68 @@ def run_systemprofiler():
 
 def parse_results(proc):
     app_name = ""
-    appinfo = {}
+    appinfolist = []
+    appinfo = {"Version": "Unknown", "Vendor": "Unknown"}
 
     #for line in hogetxt.split('\n'):
     for line in proc.stdout.readlines():
         # Application name
         appm = re.match(r'^    (\S[^:]+):(.*)$', line)
         if appm:
+            # End if "AppName" and start new entry
+            if "Application" in appinfo: 
+                appinfolist.append(appinfo)
+            appinfo = {"Version": "Unknown", "Vendor": "Unknown"}
             app_name = appm.group(1).strip()
-            appinfo[app_name] = {}
+            appinfo['Application'] = app_name
             continue
         # Application info
         tagm = re.match(r'^      (\S[^:]+):(.*)$', line)
         if tagm: 
             tag_name = tagm.group(1).strip()
             tag_value = tagm.group(2).strip()
-            appinfo[app_name][tag_name] = tag_value
-
-            vendor_name = "Unknown"
+            appinfo[tag_name] = tag_value
+            # Retrieve vendor name
             if tag_name == "Signed by":
                 # Signed vendors' app
                 m0 = re.match(
                     r'\s*Developer ID Application: (\S[^\(]+) \([A-Z0-9]{10}\).*$',
                     tag_value)
                 if m0:
-                    appinfo[app_name]['Vendor'] = m0.group(1).strip()
+                    appinfo['Vendor'] = m0.group(1).strip()
                 # Apple's app 
                 m1 = re.search("Apple Code Signing Certification Authority",
                                 tag_value)
                 if m1:
-                    appinfo[app_name]['Vendor'] = "Apple Inc."
+                    appinfo['Vendor'] = "Apple Inc."
             continue
     proc.wait()
-    return appinfo
+    return appinfolist
 
-def create_csv(appinfo):
+def create_csv(appinfolist):
     import csv
     with open(csv_fname, 'w', encoding="utf_8_sig") as csvf:
         # Excel's default encoding is SJIS. UFT8 csv needs BOM on Excel.
-        writer = csv.writer(csvf)
+        writer = csv.writer(csvf) #, quoting=csv.QUOTE_ALL)
         writer.writerow([u"ソフトウェア名",
                          u"バージョン",
                          u"開発元"])
-        for key in appinfo.keys():
-            if not "Version" in appinfo[key]: appinfo[key]["Version"] = "Unknown"
-            if not "Vendor"  in appinfo[key]: appinfo[key]["Vendor"]  = "Unknown"
-            if appinfo[key]["Vendor"] != "Apple Inc." and \
-               appinfo[key]["Version"] != "Windows 10 Pro" and \
-               appinfo[key]["Location"].find("(Parallels)") != 0:
-                print(key, appinfo[key]["Version"], appinfo[key]["Vendor"])
+        for appinfo in appinfolist:
+            if appinfo["Vendor"] != "Apple Inc." and \
+               appinfo["Version"] != "Windows 10 Pro" and \
+               appinfo["Location"].find("(Parallels)") != 0:
+                appinfo["Version"] = "=\"" + appinfo["Version"] + "\""
                 writer.writerow(
-                    [key, 
-                     appinfo[key]["Version"],
-                     appinfo[key]["Vendor"]])
+                    [appinfo["Application"], 
+                     appinfo["Version"],
+                     appinfo["Vendor"]])
     csvf.close()
     print("")
     print(csv_fname, "created.")
     print("")
+
+
+import getopt
 
 proc = run_systemprofiler()
 appinfo = parse_results(proc)
