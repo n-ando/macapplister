@@ -3,9 +3,28 @@
 macOS X上にインストールされているアプリケーションリストを取得しCSVファイルに書き出します。
 取得するリストに条件を付けてフィルタリングすることもできます。
 
+<!-- TOC -->
+
+- [動作条件](#動作条件)
+- [インストール](#インストール)
+- [使い方](#使い方)
+- [ヘルプ](#ヘルプ)
+
+<!-- /TOC -->
+
 ## 動作条件
 - macOS X
-- python3.8
+- python3.8 (python3系なら動くと思います)
+
+## インストール
+macapplister をパスの通ったところへインストールしてください。
+
+```shell
+$ wget https://github.com/n-ando/macapplister/raw/main/macapplister
+$ sudo install macapplister /usr/bin
+Password:
+$ macapplister -h <- ヘルプを見る
+```
 
 ## 使い方
 
