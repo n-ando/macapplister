@@ -191,7 +191,7 @@ def help():
   {_cmdname} -e "Application:Acrobat"
 
   # デフォルト設定と同等 (システムアプリと Parallels 共有アプリ等除外、上記参照)
-  {_cmdname} -e 'Vendor:Apple Inc.' -e 'Vendor:Microsoft' \
+  {_cmdname} -e 'Vendor:Apple Inc.' -e 'Vendor:Microsoft' \\
              -e 'Location:(Parallels)' ....
 
 生データ例:
