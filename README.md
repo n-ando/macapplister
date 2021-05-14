@@ -19,7 +19,7 @@ macOS X上にインストールされているアプリケーションリスト�
 ## インストール
 macapplister をパスの通ったところへインストールしてください。
 
-```shell
+```sh
 $ wget https://github.com/n-ando/macapplister/raw/main/macapplister
 $ sudo install macapplister /usr/bin
 Password:
@@ -28,8 +28,21 @@ $ macapplister -h <- ヘルプを見る
 
 ## 使い方
 
-```shell
+```sh
 $ macapplister
+Excludeed key-values:
+        ['Vendor', 'Apple Inc.']
+        ['Vendor', 'Microsoft']
+        ['Location', '(Parallels)']
+        ['Application', 'Firefox']
+        ['Application', 'Chrome']
+        ['Application', 'Thunderbird']
+        ['Application', 'GlobalProtect']
+        ['Application', 'Acrobat']
+Retrieving installed application information.
+Waiting \
+applist.csv created.
+
 $ ls
 applist.csv
 $
@@ -49,7 +62,7 @@ $ macapplister -e "Vendor:Google"
 
 ## ヘルプ
 
-```shell
+```sh
 使い方: {_cmdname} [オプション]... [URL]...
 
 長いオプションで不可欠な引数は短いオプションでも不可欠です。
