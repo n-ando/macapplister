@@ -63,7 +63,7 @@ $ macapplister -e "Vendor:Google"
 ## ヘルプ
 
 ```sh
-使い方: {_cmdname} [オプション]... [URL]...
+使い方: macapplister [オプション]... [URL]...
 
 長いオプションで不可欠な引数は短いオプションでも不可欠です。
 
@@ -103,13 +103,13 @@ $ macapplister -e "Vendor:Google"
 
 例:
   # Signed by に Amazon が含まれるアプリを除外
-  {_cmdname} -e "Signed by:Amazon"
+  macapplister -e "Signed by:Amazon"
 
   # Application に Acrobat が含まれるアプリを除外
-  {_cmdname} -e "Application:Acrobat"
+  macapplister -e "Application:Acrobat"
 
   # デフォルト設定と同等 (システムアプリと Parallels 共有アプリ等除外、上記参照)
-  {_cmdname} -e 'Vendor:Apple Inc.' -e 'Vendor:Microsoft' \
+  macapplister -e 'Vendor:Apple Inc.' -e 'Vendor:Microsoft' \
              -e 'Location:(Parallels)' ....
 
 生データ例:
