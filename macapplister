@@ -49,7 +49,7 @@ RAWLIST_GEN = False
 EXCLUDE_LIST = [
     ['Vendor', 'Apple Inc.'],
     ['Vendor', 'Microsoft'],
-    ["Location", "(Parallels)"],
+    ['Location', '(Parallels)'],
     ['Application', 'Firefox'],
     ['Application', 'Chrome'],
     ['Application', 'Thunderbird'],
@@ -168,7 +168,7 @@ def help():
                                    このデータから アプリ名, バージョン, ベンダ名
                                    を抽出してcsv形式で出力するので、-eオプションを
                                    指定する際に参考にしてください。
-  -e,  --exclude=Key:Value         除外パターン指定、複数回指定可
+  -e,  --exclude="Key:Value"       除外パターン指定、複数回指定可
                                    特定のエントリを含むアプリケーションを除外する指定
                                    指定時はデフォルト除外パターンはクリアされる
   　                               デフォルト除外パターン:
