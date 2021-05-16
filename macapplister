@@ -233,7 +233,6 @@ def parse_opt(arglist):
             CSV_FNAME = a
         if o in ("-a", "--all"):
             EXCLUDE_LIST = []
-            print("#########")
         if o in ("-r", "--rawlist"):
             RAWLIST_GEN = True
         if o in ("-e", "--exclude"):
