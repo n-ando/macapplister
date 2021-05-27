@@ -46,10 +46,12 @@ rawtext = """
 CSV_FNAME = 'applist.csv'
 RAWLIST_TXT = 'rawlist.txt'
 RAWLIST_GEN = False
+APP_DETAIL = False
 EXCLUDE_LIST = [
     ['Vendor', 'Apple Inc.'],
     ['Vendor', 'Microsoft'],
     ['Location', '(Parallels)'],
+    ['Location', '/System'],
     ['Application', 'Firefox'],
     ['Application', 'Chrome'],
     ['Application', 'Thunderbird'],
@@ -92,6 +94,7 @@ def parse_results(proc):
             appinfo = {"Version": "Unknown", "Vendor": "Unknown"}
             app_name = appm.group(1).strip()
             appinfo['Application'] = app_name
+            if app_name == "xfinder": appinfo['Vendor'] = "Noriaki Ando"
             continue
         # Application info
         tagm = re.match(r'^      (\S[^:]+):(.*)$', line)
@@ -107,11 +110,42 @@ def parse_results(proc):
                     tag_value)
                 if m0:
                     appinfo['Vendor'] = m0.group(1).strip()
-                # Apple's app 
-                m1 = re.search("Apple Code Signing Certification Authority",
-                                tag_value)
+                    continue
+                # Signed vendors' app without ID number
+                m0 = re.match(
+                    r'\s*Developer ID Application: (\S+), Developer ID.*$',
+                    tag_value)
+                if m0:
+                    appinfo['Vendor'] = m0.group(1).strip()
+                    continue
+                # Apple's app or App Store's app
+                m1 = re.search(
+                    r'Apple Code Signing Certification Authority',
+                    tag_value)
                 if m1:
                     appinfo['Vendor'] = "Apple Inc."
+                    continue
+            if tag_name == "Obtained from":
+                # App Store's app without Vendor name
+                if tag_value.find('App Store') >= 0:
+                    appinfo['Vendor'] = "App Store"
+                    continue
+                if tag_value.find('Apple') >= 0:
+                    appinfo['Vendor'] = "Apple Inc."
+                    continue
+            if tag_name == "Get Info String" \
+               and appinfo['Vendor'] == "Unknown":
+                index = 0
+                for c in ("(c)","(C)", "Copyright", "©"):
+                    i = tag_value.find(c)
+                    if index < i: # find max index of (C)
+                        index = i + len(c)
+                    infotext = tag_value[index:]
+                if index == 0 or len(infotext) == 0: continue
+                infotext = re.sub(r"[0-9]{4}|-|[Aa][Ll][Ll] [Rr][Ii][Gg][Hh][Tt][Ss] [Rr][Ee][Ss][Ee][Rr][Vv][Ee][Dd][.][A]", "", \
+                                  infotext).strip()
+                if len(infotext) == 0: continue
+                appinfo['Vendor'] = infotext
             continue
     if RAWLIST_GEN: rawf.close()
     proc.wait()
@@ -132,6 +166,19 @@ def create_csv(appinfolist):
                          u"開発元"])
         for appinfo in appinfolist:
             if is_exclude(appinfo): continue
+            if not APP_DETAIL:
+                m0 = re.search(r'/Applications/(\S[^/]+)/.*',
+                              appinfo["Location"])
+                # skip if "App-folder-name" app exists in appinfolist
+                if m0 and m0.group(1) != appinfo["Application"] \
+                     and len([app for app in appinfolist \
+                     if app['Application'] == m0.group(1)]) != 0: continue
+                m1 = re.search(r'/Library/(\S[^/]+)/.*',
+                              appinfo["Location"])
+                # skip if "Lib-filder-name" app exists in appinfolist
+                if m0 and m0.group(1) != appinfo["Application"] \
+                     and len([app for app in appinfolist \
+                     if app['Application'] == m0.group(1)]) != 0: continue
             appinfo["Version"] = "=\"" + appinfo["Version"] + "\""
             writer.writerow(
                     [appinfo["Application"], 
@@ -158,11 +205,16 @@ def help():
 長いオプションで不可欠な引数は短いオプションでも不可欠です。
 
 スタートアップ:
-  -V,  --version                   バージョン情報を表示して終了する
+  -v,  --version                   バージョン情報を表示して終了する
   -h,  --help                      このヘルプを表示する
 
 出力形式指定:
   -a,  --all                       全てのアプリケーションをリスト化する
+  -d,  --detail                    Applicationフォルダ内の複数アプリを展開する。
+                                   デフォルトでは、/Application/<name>, 
+                                   /Library/<name> の <name> とアプリケーション名が
+                                   一致する場合には、/App|Lib/<name>/以下に複数の
+                                   アプリケーションがあっても<name>のみリスト化される。 
   -o,  --outfile=file_name         出力csvファイル名
   -r,  --rawlist                   生データを "rawlist.txt"(ファイル名固定) に出力
                                    このデータから アプリ名, バージョン, ベンダ名
@@ -212,8 +264,8 @@ def parse_opt(arglist):
     try:
         opts, args = getopt.getopt(
             arglist,
-            'Vhao:re:',
-            ['version', 'help', 'all', 'outfile=', 'rawlist']
+            'vhado:re:',
+            ['version', 'help', 'all', 'detail', 'outfile=', 'rawlist']
         )
     except getopt.GetoptError as err:
         print("オプション指定が間違っています。")
@@ -223,16 +275,18 @@ def parse_opt(arglist):
 
     exclude_list = []
     for o, a in opts:
-        if o in ("-V", "--version"):
+        if o in ("-v", "--version"):
             version()
             sys.exit(0)
         if o in ("-h", "--help"):
             help()
             sys.exit(0)
-        if o in ("-o", "--outfile"):
-            CSV_FNAME = a
         if o in ("-a", "--all"):
             EXCLUDE_LIST = []
+        if o in ("-d", "--detail"):
+            APP_DETAIL = True
+        if o in ("-o", "--outfile"):
+            CSV_FNAME = a
         if o in ("-r", "--rawlist"):
             RAWLIST_GEN = True
         if o in ("-e", "--exclude"):
