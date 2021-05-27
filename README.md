@@ -85,6 +85,11 @@ $ macapplister -e "Vendor:Google"
 
 出力形式指定:
   -a,  --all                       全てのアプリケーションをリスト化する
+  -d,  --detail                    Applicationフォルダ内の複数アプリを展開する。
+                                   デフォルトでは、/Application/<name>,
+                                   /Library/<name> の <name> とアプリケーション名が
+                                   一致する場合には、/App|Lib/<name>/以下に複数の
+                                   アプリケーションがあっても<name>のみリスト化される。
   -o,  --outfile=file_name         出力csvファイル名
   -r,  --rawlist                   生データを "rawlist.txt"(ファイル名固定) に出力
                                    このデータから アプリ名, バージョン, ベンダ名
@@ -97,6 +102,7 @@ $ macapplister -e "Vendor:Google"
                                        ['Vendor', 'Apple Inc.']
                                        ['Vendor', 'Microsoft']
                                        ['Location', '(Parallels)']
+                                       ['Location', '/System']
                                        ['Application', 'Firefox']
                                        ['Application', 'Chrome']
                                        ['Application', 'Thunderbird']
