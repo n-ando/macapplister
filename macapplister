@@ -78,7 +78,7 @@ def parse_results(proc):
     app_name = ""
     appinfolist = []
     appinfo = {"Version": "Unknown", "Vendor": "Unknown"}
-    if RAWLIST_GEN: rawf = open(file_name, 'a')
+    if RAWLIST_GEN: rawf = open(RAWLIST_TXT, 'a')
 
     #for line in hogetxt.split('\n'):
     for line in proc.stdout.readlines():
