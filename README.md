@@ -14,7 +14,7 @@ macOS上にインストールされているアプリケーションリストを
 <!-- /TOC -->
 
 ## 1. 動作条件
-- macOS Catalina
+- macOS Catalina, Big Sur
 - python3.9 (python3系なら動くと思います)
 
 ※ Big Surでも動作すると思いますが、Catalinaでしか確認していません。<br/>
