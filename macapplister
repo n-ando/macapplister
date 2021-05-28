@@ -113,7 +113,7 @@ def parse_results(proc):
                     continue
                 # Signed vendors' app without ID number
                 m0 = re.match(
-                    r'\s*Developer ID Application: (\S+), Developer ID.*$',
+                    r'\s*Developer ID Application: (.+), Developer ID.*$',
                     tag_value)
                 if m0:
                     appinfo['Vendor'] = m0.group(1).strip()
