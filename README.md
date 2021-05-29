@@ -34,7 +34,7 @@ $ macapplister -h <- ヘルプを見る
 ```
 
 ## 4. 使い方
-オプション無しでも動作します。デフォルトでは、Apple, Microsoft 社製のアプリ (Office, Teams等) や、Google Chrome や Mozilla/Thunderbird などの一般的なアプリケーション、さらに Parallels のアプリ共有機能で共有されたアプリケーション等は除外されて csv リスト化されます。除外ルールは、実行時に表示されます。
+オプション無しでも動作します。デフォルトでは、Apple, Microsoft 社製のアプリ (Office, Teams等) や、Google Chrome や Mozilla/Thunderbird などの一般的なアプリケーション、さらに Parallels のアプリ共有機能で共有されたアプリケーション、GlobalProtect等は除外されて csv リスト化されます。除外ルールは、実行時に表示されます。
 
 実行には20秒から30秒程度の時間がかかります。プログラム実行中は Waiting の文字の後ろで '-' が回転します。
 
