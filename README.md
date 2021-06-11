@@ -44,8 +44,11 @@ $ macapplister -h <- ヘルプを見る
 
 - ベンダ名に Apple Inc. を含むもの
 - ベンダ名に Microsoft を含むもの
+- Location に /System を含むもの
+  - macOSに標準で付属する多くのアプリ、ツール、コマンドがこのディレクトリ以下に存在する。(テキストエディット、カレンダー等)
 - Location に (Parallels) を含むもの
   - Parallelsのアプリケーション共有が有効な場合、VM上のアプリケーションがMacから起動できるが、これがアプリケーションとして認識される
+
 - Application 名が以下のもの
   - Firefox
   - Chrome
@@ -55,17 +58,17 @@ $ macapplister -h <- ヘルプを見る
 
 ### 4.2. 除外ルール指定
 
-macOS上でアプリケーションとして認識されるものは多数あり、以上の除外ルールで除外したもの以外を更に除外したい場合は、-e オプションで <キー>:<値> の形式で指定して、新たな除外ルールを指定してください。
+macOS上でアプリケーションとして認識されるものは多数あり、以上の除外ルールで除外したもの以外を更に除外したい場合は、-e オプションで <Key>:<Value> の形式で指定して、新たな除外ルールを指定してください。
 
 以下の例では、アプリケーション名に Python を含むものを除外します。(Python は macOS に標準で含まれています。)
 
 ```shell
-$ macapplister -e "<キー>:<値>"
+$ macapplister -e "<Key>:<Value>"
 
 $ macapplister -e "Application:Python"
 ```
 
--e オプションは何度でも指定可能です。また、-eオプションを指定するとデフォルトの除外指定はクリアされます。使用できるキーは以下のとおりです。
+-e オプションは何度でも指定可能です。また、-eオプションを指定するとデフォルトの除外指定はクリアされます。使用できる Key は以下のとおりです。
 
 
 #### 4.2.1. 利用可能な exclude "Key" の例
@@ -79,7 +82,24 @@ $ macapplister -e "Application:Python"
 - Location                         インストール場所
 - Kind                             32-bit, 64-bit等の情報
 
-実際、それぞれのアプリケーションがそれぞれのキーに対してどのような値を持っているかを調べるには、-r オプションで rawlist.txt を出力して出力されたテキストファイルを見て決めてください。
+実際、それぞれのアプリケーションがそれぞれの Key に対してどのような値を持っているかを調べるには、-r オプションで rawlist.txt を出力して出力されたテキストファイルを見て決めてください。
+
+以下は、Parallels Desktop というアプリケーションの例です。最初の "Parallels Desktop" という名称は　Application という Key で指定する対象となります。また、Vendor というタグはありませんが、ベンダ情報は "Signed by" "Get Info String" といったタグの値からあるルールに基づいて自動で抽出されます。
+
+また、App Store から取得されたものは、"Obtained from" に "App Store"が指定されていることが多いようです。
+
+```
+    Parallels Desktop:
+
+      Version: 16.5.0
+      Obtained from: Identified Developer
+      Last Modified: 2021/04/02 18:41
+      Kind: Intel
+      Signed by: Developer ID Application: Parallels International GmbH (4C6364ACXT), Developer ID Certification 
+Authority, Apple Root CA
+      Location: /Applications/Parallels Desktop.app
+      Get Info String: 16.5.0, Copyright 2005-2021 Parallels International GmbH
+```
 
 ### 4.3. 実行例
 
@@ -90,6 +110,7 @@ $ macapplister
 Excludeed key-values:
         ['Vendor', 'Apple Inc.']
         ['Vendor', 'Microsoft']
+        ['Location', '/System'],
         ['Location', '(Parallels)']
         ['Application', 'Firefox']
         ['Application', 'Chrome']

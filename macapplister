@@ -50,8 +50,8 @@ APP_DETAIL = False
 EXCLUDE_LIST = [
     ['Vendor', 'Apple Inc.'],
     ['Vendor', 'Microsoft'],
-    ['Location', '(Parallels)'],
     ['Location', '/System'],
+    ['Location', '(Parallels)'],
     ['Application', 'Firefox'],
     ['Application', 'Chrome'],
     ['Application', 'Thunderbird'],
