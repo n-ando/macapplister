@@ -47,12 +47,10 @@ $ macapplister -h <- ヘルプを見る
 |  -V |  --version | バージョン情報を表示して終了する |
 |  -h |  --help    | このヘルプを表示する |
 |  -a |  --all     | 全てのアプリケーションをリスト化する |
-|  -d |  --detail  | 
-Applicationフォルダ内の複数アプリを展開する。<br/>
-デフォルトでは、/Application/\<name\>, /Library/\<name\> の\<name\> とアプリケーション名が一致する場合には、/App or Lib/\<name\>/以下に複数のアプリケーションがあっても\<name\>のみリスト化される。 |
+|  -d |  --detail  | Applicationフォルダ内の複数アプリを展開する。<br/>デフォルトでは、/Application/\<name\>, /Library/\<name\> の\<name\> と<br/>アプリケーション名が一致する場合には、/App or Lib/\<name\>/以下に複数のアプリケーションが<br/>あっても\<name\>のみリスト化される。 |
 |  -o |  --outfile=file_name |     出力csvファイル名 |
-|  -r |  --rawlist | 生データを "rawlist.txt"(ファイル名固定) に出力する。<br/>このデータから アプリ名, バージョン, ベンダ名を抽出してcsv形式で出力するので、-eオプションを指定する際に参考にしてください。 |
-|  -e |  --exclude="Key:Value" | 除外パターン指定、複数回指定可能。特定のエントリを含むアプリケーションを除外する指定指定時はデフォルト除外パターンはクリアされる。|
+|  -r |  --rawlist | 生データを "rawlist.txt"(ファイル名固定) に出力する。<br/>このデータから アプリ名, バージョン, ベンダ名を抽出して<br/>csv形式で出力するので、-eオプションを指定する際に<br/>参考にしてください。 |
+|  -e |  --exclude="Key:Value" | 除外パターン指定、複数回指定可能。<br/>特定のエントリを含むアプリケーションを除外する指定指定時は<br/>デフォルト除外パターンはクリアされる。|
 
 ## 5. 使い方
 オプション無しでも動作します。デフォルトでは、Apple, Microsoft 社製のアプリ (Office, Teams等) や、Google Chrome や Mozilla/Thunderbird などの一般的なアプリケーション、さらに Parallels のアプリ共有機能で共有されたアプリケーション、GlobalProtect等は除外されて csv リスト化されます。除外ルールは、実行時に表示されます。
