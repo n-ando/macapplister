@@ -29,7 +29,7 @@ macOS上にインストールされているアプリケーションリストを
 - MIT License
 
 ## 3. インストール
-macapplister をパスの通ったところへインストールしてください。
+macapplister をダウンロードしてカレントディレクトリでそのまま実行するか、パスの通ったところへインストールしてください。
 
 ```console
 $ wget https://github.com/n-ando/macapplister/raw/main/macapplister
