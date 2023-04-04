@@ -19,7 +19,7 @@ macOS上にインストールされているアプリケーションリストを
 <!-- /TOC -->
 
 ## 1. 動作条件
-- macOS Catalina, Big Sur, Ventura
+- macOS Catalina, Big Sur, Monterey, Ventura
 - python3.9 (python3系なら動くと思います)
 
 ※ Big Surでも動作すると思いますが、Catalina, Venturaでしか確認していません。<br/>
